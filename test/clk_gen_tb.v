@@ -42,16 +42,35 @@ module clk_gen_tb ();
   reg reset_n = 0;
   reg ena = 1;
 
+  reg refclk = 0;
+
   reg run_timeout_counter;
   reg [15:0] timeout_counter = 0;
 
-  // setup top level testbench signals
+  wire clk_1hz_stb;
+  wire clk_slow_set_stb;
+  wire clk_fast_set_stb;
+  wire clk_debounce_stb;
 
+  // setup top level testbench signals
+  clk_gen clk_gen_inst(
+  // global signals
+  .i_reset_n(reset_n),
+  .i_clk(clk),
+  // Strobe from 32,768 Hz reference clock
+  .i_refclk(refclk),
+  // output strobe signals
+  .o_1hz_stb(clk_1hz_stb),      // refclk / 2^15 -> 1Hz
+  .o_slow_set_stb(clk_slow_set_stb), // refclk / 2^14 -> 2Hz
+  .o_fast_set_stb(clk_fast_set_stb), // refclk / 2^12 -> 8Hz
+  .o_debounce_stb(clk_debounce_stb)  // refclk / 2^4  -> 4.096KHz
+  );
   // TODO: Add signals here
 
 
   // setup file dumping things
   localparam STARTUP_DELAY = 5;
+  integer i;
   initial begin
     $dumpfile("clk_gen_tb.fst");
     $dumpvars(0, clk_gen_tb);
@@ -61,7 +80,10 @@ module clk_gen_tb ();
     init();
 
     // TODO: Run all our tests here
-    generic_task(TIMEOUT);
+    for (i=0; i<1000; i=i+1) begin
+      @(posedge clk);
+      $display("%d", clk_1hz_stb);
+    end
 
     test_done = 1;
     // exit the simulator
