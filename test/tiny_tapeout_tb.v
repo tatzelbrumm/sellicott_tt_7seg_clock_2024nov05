@@ -108,7 +108,7 @@ module tiny_tapeout_tb ();
   wire VGND = 1'b0;
 `endif
 
-  tt_um_digital_clock_example digital_clock (
+  tt_um_gatestka_digital_clock_example digital_clock (
 `ifdef GL_TEST
     .VPWR(VPWR),
     .VGND(VGND),
