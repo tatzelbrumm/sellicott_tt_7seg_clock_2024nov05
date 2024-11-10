@@ -39,7 +39,7 @@ all: $(TESTBENCH_FST)
 tiny_tapeout_gl_tb.vvp: tiny_tapeout_tb.v \
   $(PDK_ROOT)/sky130A/libs.ref/sky130_fd_sc_hd/verilog/primitives.v \
   $(PDK_ROOT)/sky130A/libs.ref/sky130_fd_sc_hd/verilog/sky130_fd_sc_hd.v \
-  tt_um_digital_clock_example.v \
+  tt_um_gatestka_digital_clock_example.v \
   $(SRC_DIR)/input/refclk_sync.v \
   $(SRC_DIR)/input/clk_gen.v \
   $(SRC_DIR)/test/bcd_to_7seg.v \
@@ -48,7 +48,7 @@ tiny_tapeout_gl_tb.vvp: tiny_tapeout_tb.v \
 	iverilog -o $@ $(COMPILE_ARGS) $^
 
 tiny_tapeout_tb.vvp: tiny_tapeout_tb.v \
-  $(SRC_DIR)/tt_um_digital_clock_example.v \
+  $(SRC_DIR)/tt_um_gatestka_digital_clock_example.v \
   $(SRC_DIR)/clock_wrapper.v \
   $(SRC_DIR)/input/refclk_sync.v \
   $(SRC_DIR)/input/clk_gen.v \
